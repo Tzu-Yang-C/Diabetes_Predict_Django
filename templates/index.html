@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>糖尿病風險預測</title>
+  <link rel="stylesheet" href="{% static 'main.css' %}">
+</head>
+<body>
+  <nav>糖尿病風險預測</nav>
+  <form method="POST" action="{% url 'predict' %}" id="predict-form">
+  {% csrf_token %}
+
+    <div>
+      <label for="gender">性別</label>
+      <select id="gender" name="gender" required>
+        <option value="">請選擇</option>
+        <option value="1" {% if form_data.gender == "1" %}selected{% endif %}>男</option>
+        <option value="0" {% if form_data.gender == "0" %}selected{% endif %}>女</option>
+        <option value="2" {% if form_data.gender == "2" %}selected{% endif %}>其他</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="heart_disease">心臟疾病</label>
+      <select id="heart_disease" name="heart_disease" required>
+        <option value="">請選擇</option>
+        <option value="1" {% if form_data.heart_disease == "1" %}selected{% endif %}>有</option>
+        <option value="0" {% if form_data.heart_disease == "0" %}selected{% endif %}>無</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="hypertension">高血壓</label>
+      <select id="hypertension" name="hypertension" required>
+        <option value="">請選擇</option>
+        <option value="1" {% if form_data.hypertension == "1" %}selected{% endif %}>有</option>
+        <option value="0" {% if form_data.hypertension == "0" %}selected{% endif %}>無</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="age">年齡</label>
+      <input type="number" id="age" name="age" min="0" required value="{{ form_data.age }}">
+    </div>
+
+    <div>
+      <label for="bmi">BMI</label>
+      <input type="number" step="0.1" id="bmi" name="bmi" min="0" required value="{{ form_data.bmi }}">
+    </div>
+
+    <div>
+      <label for="blood_glucose_level">血糖濃度</label>
+      <input type="number" id="blood_glucose_level" name="blood_glucose_level" min="0" required value="{{ form_data.blood_glucose_level }}">
+    </div>
+
+    <div class="full-row">
+      <label for="smoking_history">抽菸習慣</label>
+      <select id="smoking_history" name="smoking_history" required>
+        <option value="">請選擇</option>
+        <option value="0" {% if form_data.smoking_history == "0" %}selected{% endif %}>無資料</option>
+        <option value="4" {% if form_data.smoking_history == "4" %}selected{% endif %}>從未吸菸</option>
+        <option value="3" {% if form_data.smoking_history == "3" %}selected{% endif %}>以前常吸，但已戒菸</option>
+        <option value="1" {% if form_data.smoking_history == "1" %}selected{% endif %}>目前吸菸</option>
+        <option value="5" {% if form_data.smoking_history == "5" %}selected{% endif %}>以前吸過，但目前沒有</option>
+        <option value="2" {% if form_data.smoking_history == "2" %}selected{% endif %}>有吸菸經驗，現吸菸狀態不確定</option>
+      </select>   
+    </div>
+    </form>
+    <button type="submit" form="predict-form">送出預測</button>
+    {% if error %}
+    <div class="warning">{{ error }}</div>
+  {% endif %}
+  {% if probability %}
+    <p><strong>預測風險：</strong> {{ probability }}</p>
+    <p><strong>建議：</strong> {{ suggestion }}</p>
+  {% endif %}
+  
+</body>
+</html>
