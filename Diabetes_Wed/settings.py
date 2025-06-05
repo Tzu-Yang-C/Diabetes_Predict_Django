@@ -27,9 +27,9 @@ environ.Env.read_env()
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['diabetes-predict-django.onrender.com']
 
 
 # Application definition
@@ -57,8 +57,7 @@ MIDDLEWARE = [
 ]
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "https://diabetes-frontend-rho.vercel.app",
-    "http://localhost:8080",
+    'https://diabetes-predict-django.onrender.com'
 ]
 ROOT_URLCONF = 'Diabetes_Wed.urls'
 
